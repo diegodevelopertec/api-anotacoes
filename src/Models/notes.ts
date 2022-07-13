@@ -31,7 +31,7 @@ export const notes=pgInstance.define<pgInterface>('notes',
     },
     {
         timestamps:false,
-        tableName:'notes'
+        tableName:'anotacoes'
     }
     
   
