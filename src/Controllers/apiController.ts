@@ -1,25 +1,60 @@
 import {Request,Response} from 'express'
-import { pgInstance } from '../Instances/pgInstance'
+import { notes } from '../Models/notes'
 
 
-export const createNote=(req:Request,res:Response)=>{
+export const createNote= async(req:Request,res:Response)=>{
 
+   
 
-
-
-
+    let {title,content}=req.body
+    let newNote=await notes.create({title,content})
+    res.status(201).json({id:newNote.id,title,content})
 
 }
 
 export const listNotes= async(req:Request,res:Response)=>{
 
 
-    try{
-        await pgInstance.authenticate()
-        res.json({ok:'tudo ok'})
-    }catch(e){
-        console.log(e);
-        
+    let allNotations=await notes.findAll()
+    res.status(200).json({allNotations})
+    
+
+
+
+    
+}
+
+export const getNote= async (req:Request,res:Response)=>{
+
+
+    let {id}=req.params
+    let note=await notes.findByPk(id)
+   if(note){
+    res.status(200).json({note})
+   }else{
+    res.json({erro:'algo deu errado'})
+   }
+
+
+
+    
+}
+
+
+export const updateNote=async (req:Request,res:Response)=>{
+
+   
+    let {id}=req.params
+    let {title,content}=req.body
+    let note=await notes.findByPk(id)
+
+    if(note){
+       note.title=title
+       note.content=content
+       await note.save()
+       res.status(200).json({note})
+    }else{
+        res.json({erro:'usuário não encontrado'})
     }
 
 
@@ -27,29 +62,13 @@ export const listNotes= async(req:Request,res:Response)=>{
     
 }
 
-export const getNote=(req:Request,res:Response)=>{
+
+export const deleteNote=async (req:Request,res:Response)=>{
 
 
-
-
-
-    
-}
-
-
-export const updateNote=(req:Request,res:Response)=>{
-
-
-
-
-
-    
-}
-
-
-export const deleteNote=(req:Request,res:Response)=>{
-
-
+    let {id}=req.params
+    await notes.destroy({where:{id}})
+    res.json({ok:'sucess delete'})
 
 
 
