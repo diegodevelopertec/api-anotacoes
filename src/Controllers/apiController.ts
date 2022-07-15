@@ -4,8 +4,6 @@ import { notes } from '../Models/notes'
 
 export const createNote= async(req:Request,res:Response)=>{
 
-   
-
     let {title,content}=req.body
     let newNote=await notes.create({title,content})
     res.status(201).json({id:newNote.id,title,content})
@@ -14,14 +12,9 @@ export const createNote= async(req:Request,res:Response)=>{
 
 export const listNotes= async(req:Request,res:Response)=>{
 
-
     let allNotations=await notes.findAll()
     res.status(200).json({allNotations})
-    
-
-
-
-    
+   
 }
 
 export const getNote= async (req:Request,res:Response)=>{
@@ -35,9 +28,6 @@ export const getNote= async (req:Request,res:Response)=>{
     res.json({erro:'algo deu errado'})
    }
 
-
-
-    
 }
 
 
@@ -56,21 +46,14 @@ export const updateNote=async (req:Request,res:Response)=>{
     }else{
         res.json({erro:'usuário não encontrado'})
     }
-
-
-
-    
+ 
 }
 
 
 export const deleteNote=async (req:Request,res:Response)=>{
 
-
     let {id}=req.params
     await notes.destroy({where:{id}})
     res.json({ok:'sucess delete'})
-
-
-
-    
+ 
 }

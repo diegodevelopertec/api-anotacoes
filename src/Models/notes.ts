@@ -9,10 +9,7 @@ export interface pgInterface extends Model{
     content:string
 
 
-
 }
-
-
 
 export const notes=pgInstance.define<pgInterface>('notes',
     
